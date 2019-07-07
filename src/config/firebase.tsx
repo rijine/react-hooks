@@ -16,6 +16,7 @@ const firebaseConfig = {
 class Firebase {
   auth: auth.Auth;
   firestore: firestore.Firestore;
+
   constructor() {
     app.initializeApp(firebaseConfig);
     this.auth = app.auth();
@@ -23,7 +24,12 @@ class Firebase {
   }
 
   async loginAnonymously() {
-    const result = await this.auth.signInAnonymously();
+    try {
+      const result = await this.auth.signInAnonymously();
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 
   async logout() {
