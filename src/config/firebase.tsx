@@ -1,4 +1,5 @@
 import * as app from 'firebase/app';
+import { auth, firestore } from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
 
@@ -13,12 +14,20 @@ const firebaseConfig = {
 };
 
 class Firebase {
-  auth: any;
-  firestore: any;
+  auth: auth.Auth;
+  firestore: firestore.Firestore;
   constructor() {
     app.initializeApp(firebaseConfig);
     this.auth = app.auth();
     this.firestore = app.firestore();
+  }
+
+  async loginAnonymously() {
+    const result = await this.auth.signInAnonymously();
+  }
+
+  async logout() {
+    const result = await this.auth.signOut();
   }
 }
 

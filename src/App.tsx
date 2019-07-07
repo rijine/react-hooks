@@ -3,6 +3,7 @@ import './App.css';
 import { GlobalContext } from './context/GlobalContext';
 import Products from './components/Products';
 import { useAuth } from './hooks/useAuth';
+import firebase from './config/firebase';
 const LazyMovies = React.lazy(() => import('./components/Movies'));
 
 function useWindowWidth() {
@@ -26,6 +27,13 @@ const App: React.FC = () => {
 
   const { loading, user } = useAuth();
 
+  function login() {
+    firebase.loginAnonymously();
+  }
+  const logout = () => {
+    firebase.logout();
+  }
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -46,7 +54,8 @@ const App: React.FC = () => {
       </GlobalContext.Provider>
 
       <div>{width}</div>
-
+      <button onClick={login}>Login </button>
+      <button onClick={logout}>Logout </button>
       <Suspense fallback={<div>Loading...</div>}>
         <LazyMovies />
       </Suspense>
