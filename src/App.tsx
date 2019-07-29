@@ -1,10 +1,12 @@
 import React, { useState, useEffect, Suspense } from 'react';
+
 import './App.css';
 import { GlobalContext } from './context/GlobalContext';
 import Products from './components/Products';
 import { useAuth } from './hooks/useAuth';
 import firebase from './config/firebase';
 import { useProduct } from './hooks/useProduct';
+import ProductForm from './components/ProductForm';
 const LazyMovies = React.lazy(() => import('./components/Movies'));
 
 function useWindowWidth() {
@@ -29,9 +31,9 @@ const App: React.FC = () => {
   const { loading, user } = useAuth();
   const product = useProduct('DLK3qetYj1jvZRUPWEQA');
 
-  function login() {
+  const login = () => {
     firebase.loginAnonymously();
-  }
+  };
   const logout = () => {
     firebase.logout();
   };
@@ -53,6 +55,7 @@ const App: React.FC = () => {
       >
         {JSON.stringify({ user, product })}
         <Products />
+        <ProductForm />
       </GlobalContext.Provider>
 
       <div>{width}</div>
